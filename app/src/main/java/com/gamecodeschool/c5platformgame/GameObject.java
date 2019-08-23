@@ -84,4 +84,15 @@ public abstract class GameObject {
     public void setBitmapName(String bitmapName) {
         this.bitmapName = bitmapName;
     }
+
+    public Vector2Point5D getWorldLocation() {
+        return worldLocation;
+    }
+
+    public void setWorldLocation(float x , float y , int z) {
+        this.worldLocation = new Vector2Point5D();
+        this.worldLocation.x = x;
+        this.worldLocation.y = y;
+        this.worldLocation.z = z;
+    }
 }
