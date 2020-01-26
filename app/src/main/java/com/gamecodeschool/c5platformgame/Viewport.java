@@ -9,7 +9,7 @@ public class Viewport {
 
     /* number of meters the viewport will show */
     private int metersToShowX;
-    private int metersToShowY; ;
+    private int metersToShowY;
 
     /* screen resolution */
     private int screenXResolution;
@@ -83,5 +83,36 @@ public class Viewport {
         return convertedRect;
     }
 
+    public boolean clipObject(float objectX , float objectY ,
+                              float objectWidth , float objectHeight)
+    {
+        //default assumption is that the object is clipped
+        boolean clipped = true;
 
-}
+        //check to see if the object is in the range of the viewport
+        if (objectX - objectWidth < currentViewportWorldCenter.x + (metersToShowX/2))
+        {
+            if (objectX + objectWidth > currentViewportWorldCenter.x + (metersToShowX/2))
+            {
+                if (objectY - objectHeight < currentViewportWorldCenter.y + (metersToShowY/2))
+                {
+                    if (objectY + objectHeight > currentViewportWorldCenter.y + (metersToShowY/2))
+                        clipped = false;
+                }
+            }
+        }
+        //for debugging
+        if (clipped)
+            numClipped++;
+
+        return clipped;
+    }
+
+    public int getNumClipped() {
+        return numClipped;
+    }
+
+    public void resetNumClipped() {
+        numClipped = 0;
+    }
+} //end of viewport
