@@ -73,7 +73,7 @@ public abstract class GameObject {
         return type;
     }
 
-    public void setType(char type) {
+        public void setType(char type) {
         this.type = type;
     }
 
