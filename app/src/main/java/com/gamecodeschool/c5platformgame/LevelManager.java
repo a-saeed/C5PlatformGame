@@ -36,7 +36,7 @@ public class LevelManager {
                 levelData = new LevelCave();
                 break;
 
-                //we can add extra levels here
+            //we can add extra levels here
         }
 
         //To hold all our GameObjects
@@ -57,8 +57,8 @@ public class LevelManager {
     }
 
     /*Get any Bitmap object based on the GameObject
-    *each index corresponds to a bitmap
-    */
+     *each index corresponds to a bitmap
+     */
     public  Bitmap getBitmap(char blockType)
     {
         int index;
@@ -75,13 +75,37 @@ public class LevelManager {
                 index = 2;
                 break;
 
-                default:
-                    index = 0;
-                    break;
+            default:
+                index = 0;
+                break;
         }//End switch
 
         return bitmapsArray[index];
     }
 
+    //This method allows each GameObject which 'knows'
+    //its type to get the correct index to its Bitmap
+    //in the bitmap array
+    public int getBitmapIndex(char blockType)
+    {
+        int index;
+        switch (blockType){
+            case '.':
+                index  = 0;
+                break;
 
+            case '1':
+                index = 1;
+                break;
+
+            case 'p':
+                index = 2;
+                break;
+
+            default:
+                index = 0;
+                break;
+        }//End switch
+        return index;
+    }
 }
