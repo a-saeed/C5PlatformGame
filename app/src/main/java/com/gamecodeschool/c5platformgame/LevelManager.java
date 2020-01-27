@@ -108,4 +108,62 @@ public class LevelManager {
         }//End switch
         return index;
     }
+
+    //The real work with LevelManager class
+    //Load our level from our design
+    //for now we just load all the grass tiles
+    //and the player. soon we'll have many GameObjects
+    private void loadMapData(Context context, int pixelsPerMetre, float px, float py)
+    {
+        char c;
+
+        //keep track of where we load our Game Objects
+        int currentIndex = -1;
+
+        //how wide and high is the map? Viewport needs to know
+        mapHeight = levelData.tiles.size();
+        mapWidth = levelData.tiles.get(0).length();
+
+        for (int i = 0; i <  levelData.tiles.size(); i++)
+        {
+            for (int j = 0; j < levelData.tiles.get(i).length(); j++)
+            {
+                c = levelData.tiles.get(i).charAt(j);
+
+                //Don't want to load the empty spaces
+                if (c != '.')
+                {
+                    currentIndex++;
+
+                    switch (c){
+                        case '1':
+                            ///Add Grass to the gameObjects
+                            gameObjects.add(new Grass(j, i , c));
+                            break;
+
+                        case 'p':
+                            //Add a player to the gameObjects at passed location
+                            gameObjects.add(new Player(context, px, py, pixelsPerMetre));
+
+                            //we want the index of the player
+                            playerIndex = currentIndex;
+                            //we want a reference to the player
+                            player = (Player) gameObjects.get(playerIndex);
+                            break;
+
+                    }//End switch
+
+                    //If the bitmap isn't prepared yet
+                    if (bitmapsArray[getBitmapIndex(c)] == null)
+                    {
+                        //Prepare it now and put it in the bitmapsArray
+                        bitmapsArray[getBitmapIndex(c)] =
+                                gameObjects.get(currentIndex).prepareBitmap(context,
+                                        gameObjects.get(currentIndex).getBitmapName(),
+                                        pixelsPerMetre);
+                    }//End if
+                }//End if(c != '.')
+            }//End for j
+        }//End for i
+    }
 }
