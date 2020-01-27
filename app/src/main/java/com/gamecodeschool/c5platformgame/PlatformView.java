@@ -27,7 +27,7 @@ class PlatformView extends SurfaceView implements Runnable {
 
     /* our new engine classes */
     private LevelManager lm;
-    private ViewPort vp;
+    private Viewport vp;
     InputController ic;
 
     /* constructor */
@@ -39,6 +39,8 @@ class PlatformView extends SurfaceView implements Runnable {
         /* initialize drawing objects */
         surfaceHolder = getHolder();
         paint = new Paint();
+        /*initialize the viewport*/
+        vp = new Viewport(screenWidth, screenHeight);
     }
 
     @Override
