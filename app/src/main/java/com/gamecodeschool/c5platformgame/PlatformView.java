@@ -72,6 +72,26 @@ class PlatformView extends SurfaceView implements Runnable {
 
     private void update()
     {
+        for (GameObject go : lm.gameObjects)
+        {
+            if (go.isActive())
+            {
+                //Clip anything off-screen
+                //if the gameObject isn't supposed to be clipped...
+                if (!vp.clipObject(go.getWorldLocation().x,
+                        go.getWorldLocation().y, go.getWidth(), go.getHeight()))
+                {
+                    //Set visible flag to true
+                    go.setViisible(true);
+                }
+            }
+            else
+            {
+                //Set visible flag to false
+                go.setViisible(false);
+                //Now draw() can ignore them
+            }
+        }
     }
 
     private void draw()
@@ -127,4 +147,5 @@ class PlatformView extends SurfaceView implements Runnable {
         vp.setWorldCenter(lm.gameObjects.get(lm.playerIndex).getWorldLocation().x,
                            lm.gameObjects.get(lm.playerIndex).getWorldLocation().y);
     }
+
 }
