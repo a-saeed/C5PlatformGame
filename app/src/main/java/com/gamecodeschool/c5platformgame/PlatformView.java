@@ -10,6 +10,7 @@ import android.view.SurfaceView;
 
 class PlatformView extends SurfaceView implements Runnable {
 
+    /**A T T R I B U T E S*/
     private boolean debugging = true;
     private volatile boolean running;
     private Thread gameThread = null;
@@ -30,7 +31,7 @@ class PlatformView extends SurfaceView implements Runnable {
     private Viewport vp;
     InputController ic;
 
-    /* constructor */
+    /**C O N S T R U C T O R */
     PlatformView(Context context , int screenWidth , int screenHeight)
     {
         super(context);
@@ -41,8 +42,12 @@ class PlatformView extends SurfaceView implements Runnable {
         paint = new Paint();
         /*initialize the viewport*/
         vp = new Viewport(screenWidth, screenHeight);
+
+        //Load the first level
+        loadLevel("LevelCave", 15, 2);
     }
 
+    /**M E T H O D S*/
     @Override
     public void run()
     {
@@ -106,5 +111,20 @@ class PlatformView extends SurfaceView implements Runnable {
         running = true;
         gameThread = new Thread(this);
         gameThread.start();
+    }
+
+    private void loadLevel(String level, float px, float py) {
+
+        lm = null;
+         //Create a new level manager
+         //pass in a context, screen details, level name and player location
+        lm = new LevelManager(context, vp.getPixelsPerMetreX(),
+                vp.getScreenWidth(), ic, level, px, py );
+
+        ic = new InputController(vp.getScreenWidth(), vp.getScreenHeight());
+
+        //Set the player's location as the world center
+        vp.setWorldCenter(lm.gameObjects.get(lm.playerIndex).getWorldLocation().x,
+                           lm.gameObjects.get(lm.playerIndex).getWorldLocation().y);
     }
 }
